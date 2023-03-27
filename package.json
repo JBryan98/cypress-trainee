@@ -1,0 +1,31 @@
+{
+  "name": "cypress-trainee",
+  "version": "1.0.0",
+  "description": "Cypress course",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress open"
+  },
+  "keywords": [
+    "javascript",
+    "cypress",
+    "esbuild",
+    "cucumber"
+  ],
+  "author": "Amazing",
+  "license": "ISC",
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^16.0.0",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
+    "cypress": "^12.8.1",
+    "esbuild": "^0.17.14",
+    "pg": "^8.10.0"
+  },
+  "cypress-cucumber-preprocessor": {
+    "filterSpecs": true,
+    "omitFiltered": true,
+    "stepDefinitions": [
+      "cypress/e2e/**/step-definitions/*.{js, ts}"
+    ]
+  }
+}
