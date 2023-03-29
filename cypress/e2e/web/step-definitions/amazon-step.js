@@ -12,7 +12,7 @@ When("the user searches for {string}", (products) => {
 });
 
 Then("selects {string}", (product) => {
-  AmazonPage.selectProduct(product);
+  AmazonPage.selectOption(product);
 });
 
 Then("navigates to page number {string}", (number) => {
