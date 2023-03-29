@@ -7,6 +7,11 @@ import {
   getBookingFilteredByName,
   updateBookingById,
   validateBookingId,
+  patchBookingById,
+  deleteBookingById,
+  verifydeletingBooking,
+  validateUpdateBookingId,
+  validatePatchBookingId,
 } from "../pages/booking-page";
 
 Given("The access API request endpoint", () => {});
@@ -52,4 +57,24 @@ When("I access the API request endpoint to get a single booking", () => {
 
 When("I access the API request endpoint to update a booking", (datatable) => {
   updateBookingById(datatable);
+})
+
+Then ("verify is update the booking", (datatable) => {
+  validateUpdateBookingId(datatable);
+})
+
+When("I access the API request endpoint to partial update a booking", (datatable) => {
+  patchBookingById(datatable);
+})
+
+When("I acces the request endpoint to delete a booking", () => {
+  deleteBookingById();
+})
+
+Then("verify the bookingid is empty", () => {
+  verifydeletingBooking();
+}) 
+
+Then("Verify the response body contains the firstaname and lastname modified", (datatable)=> {
+  validatePatchBookingId(datatable);
 })
