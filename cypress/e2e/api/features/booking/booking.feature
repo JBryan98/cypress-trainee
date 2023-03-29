@@ -48,3 +48,24 @@ Feature: Booking services automation
             | firstname | lastname | totalprice | depositpaid | checkin    | checkout   | additionalneeds |
             | Johan     | Vicencio | 100        | true        | 2022-12-01 | 2022-12-03 | Breakfast       |
         Then Verify the response status code "200"
+        Then verify is update the booking
+            | firstname | lastname | totalprice | depositpaid | checkin    | checkout   | additionalneeds |
+            | Johan     | Vicencio | 100        | true        | 2022-12-01 | 2022-12-03 | Breakfast       |
+
+    @PatchBooking
+    Scenario: Patch booking
+        Given Booking registered on the API
+        When I access the API request endpoint to partial update a booking
+            | firstname | lastname |
+            | Gustavito | Cubas    |
+        Then Verify the response status code "200"
+        And Verify the response body contains the firstaname and lastname modified
+            | firstname | lastname |
+            | Gustavito | Cubas    |
+
+    @DeleteBooking
+    Scenario: Delete Booking
+        Given Booking registered on the API
+        When I acces the request endpoint to delete a booking
+        Then Verify the response status code "201"
+        And verify the bookingid is empty

@@ -64,7 +64,9 @@ export const createBooking = (datatable) => {
                 },
                 "additionalneeds": row.additionalneeds
             }
-        }).as("endpoint")
+        }).as("endpoint").then((response)=> {
+            cy.log(JSON.stringify(response.body))
+        })
     })
 }
 
@@ -110,4 +112,64 @@ export const updateBookingById = (datatable) => {
     })
 }
 
+export const validateUpdateBookingId = (datatable) => {
+    cy.get("@endpoint").then((response) => {
+        datatable.hashes().forEach((row) => {
+            expect(row.firstname).to.equal(response.body.firstname);
+            expect(row.lastname).to.equal(response.body.lastname);
+            expect(Number(row.totalprice)).to.equal(response.body.totalprice);
+            expect(Boolean(row.depositpaid)).to.equal(response.body.depositpaid);
+            expect(row.checkin).to.equal(response.body.bookingdates.checkin);
+            expect(row.checkout).to.equal(response.body.bookingdates.checkout);
+            expect(row.additionalneeds).to.equal(response.body.additionalneeds);
+        })
+    })
+}
 
+export const patchBookingById = (datatable) => {
+    datatable.hashes().forEach((row) => {
+        cy.request({
+            method: "PATCH",
+            url: `${Cypress.env('api')}/booking/${bookingId}`,
+            headers: {
+                "Content-type": "application/json",
+                "Accept": "application/json",
+                "Cookie": `token=${token}`
+            },
+            body:{
+                "firstname": row.firstname,
+                "lastname": row.lastname
+            }
+        }).as("endpoint").then((response) => {
+            cy.log(JSON.stringify(response.body))
+        })
+    })
+}
+
+export const validatePatchBookingId = (datatable) => {
+    cy.get("@endpoint").then((response) => {
+        datatable.hashes().forEach((row) => {
+            //expect(response.status).to.equal(200);
+            expect(row.firstname).to.equal(response.body.firstname);
+            expect(row.lastname).to.equal(response.body.lastname);
+        })
+    })
+}
+
+export const deleteBookingById = () => {
+        cy.request({
+            method: "DELETE",
+            url: `${Cypress.env('api')}/booking/${bookingId}`,
+            headers: {
+                "Content-type": "application/json",
+                "Cookie": `token=${token}`
+            }
+        }).as("endpoint")
+}
+
+export const verifydeletingBooking = () => {
+    cy.get("@endpoint").then((response) => {
+        bookingId = response.body.bookingid;
+        expect(bookingId).not.to.be.null;
+    })
+} 
